@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Categorias</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="container">
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">HomePage</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/categoria">Categoria</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/lancamento">Lançamentos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<h2>Lista de Categorias</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <form action="/categoria/filtrar" method="GET">
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Pesquisa por nome:</label>
+                    <input id="nome"
+                           type="text"
+                           class="form-control mb-3"
+                           name="nome">
+                    <button type="submit" class="btn btn-primary">Pesquisar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome da Categoria</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="categoria : ${categorias}">
+                    <th th:text="${categoria.id}" scope="row">1</th>
+                    <td th:text="${categoria.nome}">Mark</td>
+                    <td th:text="${categoria.tipo}">Mark</td>
+                    <td>
+                        <a class="btn btn-primary" th:href="@{'categoria/editar/'+${categoria.id}}">Editar</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" th:href="@{'categoria/remover/'+${categoria.id}}">Deletar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row justify-content-center card">
+        <div class="col-6">
+            <form action="/categoria/criar" method="GET">
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

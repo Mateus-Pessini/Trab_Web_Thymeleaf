@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${tituloPagina}">Gestão Financeira</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="container">
+<header>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">HomePage</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/categoria">Categoria</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/lancamento">Lançamentos</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<h2>Totalizadores</h2>
+<div class="row">
+  <div class="col-md-4">
+    <div class="alert alert-success" role="alert">
+      Receita: R$ [[${totalReceita}]]
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="alert alert-danger" role="alert">
+      Despesa: R$ [[${totalDespesa}]]
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="alert alert-info" role="alert">
+      Total Líquido: R$ [[${totalLiquido}]]
+    </div>
+  </div>
+</div>
+
+<h2>Últimos 10 Lançamentos</h2>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Descrição</th>
+    <th>Valor</th>
+    <th>Data</th>
+    <th>Categoria</th>
+    <th>Tipo</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="lancamento : ${lancamentos}">
+    <td th:text="${lancamento.id}"></td>
+    <td th:text="${lancamento.descricao}"></td>
+    <td th:text="${lancamento.valor}"></td>
+    <td th:text="${#temporals.format(lancamento.data, 'dd/MM/yyyy')}"></td>
+    <td th:text="${lancamento.categoria.nome}"></td>
+    <td th:text="${lancamento.categoria.tipo}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Adicionando Bootstrap JS e jQuery (opcional) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

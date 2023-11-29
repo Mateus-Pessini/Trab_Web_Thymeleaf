@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Lançamento</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" th:href="@{/main.css}">
+    <link rel="shortcut icon" th:href="@{/favicon.png}" type="image/x-icon"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">HomePage</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/categoria">Categoria</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/lancamento">Lançamentos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <hr/>
+    <h2 th:text="(${lancamento.id} ? 'Edição' : 'Cadastro') + ' de Lançamentos'"></h2>
+    <hr/>
+</header>
+<main>
+    <div class="container">
+        <div class="row" th:if="${not #lists.isEmpty(msg)}">
+            <div th:each="m : ${msg}">
+                <div class="alert alert-warning" role="alert" th:text="${m}">
+                    A simple warning alert—check it out!
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center card">
+                <div class="col-6">
+                    <form class="card-body" method="POST" action="/lancamento" th:object="${lancamento}">
+                        <div class="mb-3">
+                            <label for="id" class="form-label">Código</label>
+                            <input id="id"
+                                   type="text"
+                                   readonly
+                                   class="form-control-plaintext"
+                                   name="id"
+                                   th:value="${lancamento.id}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descricao" class="form-label">Descrição do Lançamento</label>
+                            <input id="descricao"
+                                   type="text"
+                                   class="form-control"
+                                   name="descricao"
+                                   th:value="${lancamento.descricao}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="valor" class="form-label">Valor do Lançamento</label>
+                            <input id="valor"
+                                   type="number"
+                                   class="form-control"
+                                   name="valor"
+                                   th:value="${lancamento.valor}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="data" class="form-label">Data do Lançamento</label>
+                            <input id="data"
+                                   type="date"
+                                   class="form-control"
+                                   name="data"
+                                   th:value="${#temporals.format(lancamento.data, 'dd/MM/yyyy')}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoria</label>
+                            <select id="categoria" name="categoria" class="form-control">
+                                <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button type="submit"
+                                class="btn btn-danger"
+                                onclick="window.history.go(-1); return false;">Voltar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer></footer>
+</body>
+</html>

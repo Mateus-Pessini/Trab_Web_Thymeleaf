@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Categoria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" th:href="@{/main.css}">
+    <link rel="shortcut icon" th:href="@{/favicon.png}" type="image/x-icon" />
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">HomePage</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/categoria">Categoria</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/lancamento">Lançamentos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <hr/>
+    <h2 th:text="(${categoria.id} ? 'Edição' : 'Cadastro') + ' de Categorias'"></h2>
+    <hr/>
+</header>
+<main>
+    <div class="container">
+        <div class="row" th:if="${not #lists.isEmpty(msg)}">
+            <div th:each = "m : ${msg}">
+                <div class="alert alert-warning" role="alert" th:text = "${m}">
+                    A simple warning alert—check it out!
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center card">
+            <div class="col-6">
+                <form  class="card-body" method="POST" action="/categoria" th:object="${categoria}">
+                    <div class="mb-3">
+                        <label for="id" class="form-label">Código</label>
+                        <input id="id"
+                               type="text"
+                               readonly
+                               class="form-control-plaintext"
+                               name="id"
+                               th:value="${categoria.id}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome da Categoria</label>
+                        <input id="nome"
+                               type="text"
+                               class="form-control"
+                               name="nome"
+                               th:value="${categoria.nome}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo da categoria</label>
+                        <select id="tipo" type="text" name="tipo" class="form-control">
+                            <option th:each="tipo : ${T(com.example.web.Enum.TipoLancamento).values()}"
+                                    th:value="${tipo}" th:text="${tipo}"></option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                    <button type="submit"
+                            class="btn btn-danger"
+                            onclick="window.history.go(-1); return false;">Voltar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer></footer>
+</body>
+</html>

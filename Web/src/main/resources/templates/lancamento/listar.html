@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Lançamentos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="container">
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">HomePage</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/categoria">Categoria</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/lancamento">Lançamentos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<h2>Consulta de Lançamentos</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <form action="/lancamento/filtrar" method="GET">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Data Inicial:</label>
+                        <input type="date" class="form-control" name="dataInicial" th:value="${dataInicial}"/>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Data Final:</label>
+                        <input type="date" class="form-control" name="dataFinal" th:value="${dataFinal}"/>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Tipo:</label>
+                        <select class="form-control" name="tipo" th:value="${tipo}">
+                            <option value="">Todos</option>
+                            <option value="RECEITA">Receita</option>
+                            <option value="DESPESA">Despesa</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Pesquisar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Data</th>
+                    <th>Categoria</th>
+                    <th>Tipo</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lancamento : ${lancamentos}">
+                    <td th:text="${lancamento.id}"></td>
+                    <td th:text="${lancamento.descricao}"></td>
+                    <td th:text="${lancamento.valor}"></td>
+                    <td th:text="${#temporals.format(lancamento.data, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${lancamento.categoria.nome}"></td>
+                    <td th:text="${lancamento.categoria.tipo}"></td>
+                    <td>
+                        <a class="btn btn-primary" th:href="@{'lancamento/editar/'+${lancamento.id}}">Editar</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" th:href="@{'lancamento/remover/'+${lancamento.id}}">Deletar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row justify-content-center card">
+        <div class="col-6">
+            <form action="/lancamento/criar" method="GET">
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Adicionando Bootstrap JS e jQuery (opcional) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
