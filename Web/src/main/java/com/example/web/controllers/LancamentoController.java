@@ -55,6 +55,7 @@ public class LancamentoController {
     public ModelAndView editarLancamento(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("lancamento/inserir");
         modelAndView.addObject("lancamento", lancamentoService.findById(id));
+        modelAndView.addObject("categorias", categoriaService.listAll());
         return modelAndView;
     }
 

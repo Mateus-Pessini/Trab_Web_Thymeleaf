@@ -20,12 +20,11 @@ public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
     public List<Lancamento> findAllByTipo(@Param("tipo") TipoLancamento tipo);
 
     @Query("SELECT l FROM Lancamento l " +
-            "WHERE (:dataInicial IS NULL OR l.data >= :dataInicial) " +
-            "AND (:dataFinal IS NULL OR l.data <= :dataFinal) " +
-            "AND (:tipo IS NULL OR l.categoria.tipo = :tipo)")
+            "WHERE (COALESCE(:dataInicial, :dataFinal, CAST(:tipo AS date)) IS NULL " +
+            "       OR l.data BETWEEN COALESCE(:dataInicial, l.data) AND COALESCE(:dataFinal, l.data)) " +
+            "  AND (:tipo IS NULL OR l.categoria.tipo = :tipo)")
     List<Lancamento> findByFilter(
             @Param("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @Param("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal,
             @Param("tipo") TipoLancamento tipo);
-
 }

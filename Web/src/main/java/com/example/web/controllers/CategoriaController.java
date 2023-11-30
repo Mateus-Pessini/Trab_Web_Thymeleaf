@@ -55,7 +55,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public String salvarDisciplina(@Valid Categoria categoria,
+    public String salvarCategoria(@Valid Categoria categoria,
                                    BindingResult bindingResult,
                                    RedirectAttributes redirectAttributes){
 
@@ -81,7 +81,7 @@ public class CategoriaController {
     }
 
     @GetMapping(path = "/criar")
-    public ModelAndView retornaNovaDisciplina(ModelMap model) {
+    public ModelAndView retornaNovaCategoria(ModelMap model) {
         ModelAndView modelAndView = new ModelAndView("categoria/inserir");
 
         if (model.containsAttribute("categoria")) {
